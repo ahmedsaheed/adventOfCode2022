@@ -9,7 +9,7 @@ class day01{
         return lines;
     }
 
-    public String part1(Stream<String> lines){
+    public ArrayList<Integer> part1(Stream<String> lines){
         ArrayList<String> list = new ArrayList<String>();
         lines.forEach(list::add);
         // System.out.println(list);
@@ -56,13 +56,33 @@ class day01{
         // System.out.println(sumOfEveryElf);
 
         System.out.println(Collections.max(sumOfEveryElf));
-        return Collections.max(sumOfEveryElf).toString();
+        return sumOfEveryElf;
+    }
+
+    public int getTopThreeElvs(ArrayList<Integer> list){
+        int first = 0; 
+        int second = 0; 
+        int third = 0;
+        first =   Collections.max(list);
+        for(int i= 0; i < list.size(); i++){
+            if (list.get(i) > second && list.get(i) != first){
+                second = list.get(i);
+            }
+        }
+
+        for(int i= 0; i < list.size(); i++){
+            if (list.get(i) > third  && list.get(i) != second && list.get(i) != first){
+                third = list.get(i);
+            }
+        }
+        return first + second + third;  
     }
     public static void main(String[] args){
         day01 d = new day01();
         try{
             Stream<String> lines = d.readInput("day01");
             System.out.println(d.part1(d.readInput("day01")));
+            System.out.println(d.getTopThreeElvs(d.part1(d.readInput("day01"))));
         }catch(IOException e){
             System.out.println(e);
         }
