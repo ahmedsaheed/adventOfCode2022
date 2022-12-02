@@ -3,13 +3,13 @@ import java.io.*;
 import java.util.*;
 class day01{
        /// TERRIBLE CODE !!! 
-    public Stream<String> readInput(String filename) throws IOException{
+    public static Stream<String> readInput(String filename) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(filename));
         Stream<String> lines = br.lines();
         return lines;
     }
 
-    public ArrayList<Integer> part1(Stream<String> lines){
+    public static ArrayList<Integer> part1(Stream<String> lines){
         ArrayList<String> list = new ArrayList<String>();
         lines.forEach(list::add);
         ArrayList<Integer> newLineLocation = new ArrayList<Integer>();
@@ -26,14 +26,6 @@ class day01{
         int au = 0;
         
         ArrayList<Integer> sumOfEveryElf = new ArrayList<Integer>();
-        for (int i = newLineLocation.get(newLineLocation.size() - 1)  ; i < list.size(); i++){
-           summer += Integer.parseInt(list.get(i));
-        }
-        sumOfEveryElf.add(summer);
-        for (int i = newLineLocation.get(newLineLocation.size() - 2)  ; i < newLineLocation.get(newLineLocation.size() - 1)-1; i++){
-           au += Integer.parseInt(list.get(i));
-        }
-        sumOfEveryElf.add(au);
         while(index != list.size()){
              for (int j=index; j < breakPoint - 1; j++){
                     sum += Integer.parseInt(list.get(j));
@@ -42,26 +34,31 @@ class day01{
             sum = 0;
              iteration+=1;
              index = breakPoint;
-
-            breakPoint = iteration == newLineLocation.size()+1 ? 300 :  newLineLocation.get(iteration);
+            breakPoint = newLineLocation.get(iteration);
             if (breakPoint == newLineLocation.get(newLineLocation.size() - 1)){
-
                 break;
             }
+            for (int i = newLineLocation.get(newLineLocation.size() - 1)  ; i < list.size(); i++){
+                summer += Integer.parseInt(list.get(i));
+            }
+            sumOfEveryElf.add(summer);
+            for (int i = newLineLocation.get(newLineLocation.size() - 2)  ; i < newLineLocation.get(newLineLocation.size() - 1)-1; i++){
+                au += Integer.parseInt(list.get(i));
+            }
+            sumOfEveryElf.add(au);
         }
         return sumOfEveryElf;
     }
 
-    public int getTopThreeElvs(ArrayList<Integer> list){
+    public static int getTopThreeElvs(ArrayList<Integer> list){
        
         Collections.sort(list);
         return list.get(list.size()-1) + list.get(list.size() -2 ) +list.get(list.size() -3);  
     }
     public static void main(String[] args){
-        day01 d = new day01();
         try{
-            System.out.println(d.part1(d.readInput("day01")));
-            System.out.println(d.getTopThreeElvs(d.part1(d.readInput("day01"))));
+            System.out.println(part1(readInput("day01dev")));
+            System.out.println(getTopThreeElvs(part1(readInput("day01dev"))));
         }catch(IOException e){
             System.out.println(e);
         }
