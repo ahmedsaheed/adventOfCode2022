@@ -5,7 +5,7 @@ import java.util.*;
 public class day2 {
     static int total = 0;
     public record Game (String name, int point) {}
-    static Map<String, Game > map = new HashMap<>();
+    static Map<String, Game> map = new HashMap<>();
         static {
             map.put("A", new Game("Rock", 1));
             map.put("B", new Game("Paper", 2));
