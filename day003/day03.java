@@ -43,8 +43,11 @@ class day03{
         return list;
     }
 
+
+
+    /// PART 1
     static String splitter(String s){
-        final int mid = s.length() / 2; 
+        int mid = s.length() / 2; 
         String[] parts = {s.substring(0, mid),s.substring(mid)};
         String firstPart = parts[0];
         String secondPart = parts[1];
@@ -77,9 +80,53 @@ class day03{
 
 
 
+
+    /// PART 2
+    
+    static ArrayList<String[]> throwEmInGroups() throws IOException{
+        ArrayList<String[]> groups = new ArrayList<>();
+        ArrayList<String> data = readData("day03");
+        for (int i = 0; i < data.size(); i+=3){
+            String[] group = {data.get(i), data.get(i+1), data.get(i+2)};
+            groups.add(group);
+        }
+        return groups;
+    }
+
+
+    static int solve() throws IOException{
+        int sum = 0;
+        ArrayList<String[]> groups = throwEmInGroups();
+        for(int i =0; i < groups.size(); i++){
+          sum += sumup(commons(Arrays.toString(groups.get(i))));
+        }
+        return sum;
+    }
+
+    static String commons(String group){ 
+        String cleaned = group.substring(1, group.length() - 1);
+        String[] parts = cleaned.split(",");
+        String firstPart = parts[0];
+        String secondPart = parts[1];
+        String thirdPart = parts[2];
+        String dup = "";
+        for (int i = 0; i < firstPart.length(); i++){
+            for(int j = 0; j < secondPart.length(); j++){
+                for(int k = 0; k < thirdPart.length(); k++){
+                    if( firstPart.charAt(i) == secondPart.charAt(j) && secondPart.charAt(j) == thirdPart.charAt(k) ){
+                        dup =  firstPart.charAt(i) + "";  
+                    }
+                }
+            }
+        }
+        return dup;
+    }
+
+
     public static void main(String[] args){ 
         try{
-            System.out.println(doJob(readData("day03")));
+            System.out.println(solve());
+            doJob(readData("day03"));
         }catch(IOException e){
             System.out.println(e);
         }
