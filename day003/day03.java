@@ -4,37 +4,6 @@ import java.io.*;
 import java.util.*;
 
 class day03{
-    
-    
-    static Map<String, int[]> map = new HashMap<>();
-        static {
-            map.put("a", new int[] {1,27} );
-            map.put("b", new int[] {2,28} );
-            map.put("c", new int[] {3,29} );
-            map.put("d", new int[] {4,30} );
-            map.put("e", new int[] {5,31} );
-            map.put("f", new int[] {6,32} );
-            map.put("g", new int[] {7,33} );
-            map.put("h", new int[] {8,34} );
-            map.put("i", new int[] {9,35} );
-            map.put("j", new int[] {10,36} );
-            map.put("k", new int[] {11,37} );
-            map.put("l", new int[] {12,38} );
-            map.put("m", new int[] {13,39} );
-            map.put("n", new int[] {14,40} );
-            map.put("o", new int[] {15,41} );
-            map.put("p", new int[] {16,42} );
-            map.put("q", new int[] {17,43} );
-            map.put("r", new int[] {18,44} );
-            map.put("s", new int[] {19,45} );
-            map.put("t", new int[] {20,46} );
-            map.put("u", new int[] {21,47} );
-            map.put("v", new int[] {22,48} );
-            map.put("w", new int[] {23,49} );
-            map.put("x", new int[] {24,50} );
-            map.put("y", new int[] {25,51} );
-            map.put("z", new int[] {26,52} );
-        }
     static ArrayList<String> readData(String filename) throws IOException{
         ArrayList<String> list = new ArrayList<String>();
         BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -42,8 +11,6 @@ class day03{
         lines.forEach(list::add);
         return list;
     }
-
-
 
     /// PART 1
     static String splitter(String s){
@@ -63,26 +30,23 @@ class day03{
         return dup;
     }
 
-    static int sumup(String s){
-        boolean isUpperCase = Character.isUpperCase(s.charAt(0));
-        return isUpperCase ? map.get(s.toLowerCase())[1] : map.get(s.toLowerCase())[0];
+    static int sumup(String ch){
+        char cha = Character.toUpperCase(ch.charAt(0));
+        boolean isUpperCase = Character.isUpperCase(ch.charAt(0)); 
+        return isUpperCase ? (cha - 'A' + 1) + 26: cha - 'A' + 1;
     }
 
-    static int doJob(ArrayList<String> list){
+    static int doJob1() throws IOException{
+        ArrayList<String> list = readData("day03");
         int sum = 0;
         for (int i = 0; i < list.size(); i++){
             String value = splitter(list.get(i));
             sum += sumup(value);
         }
-
         return sum;
     }
 
-
-
-
     /// PART 2
-    
     static ArrayList<String[]> throwEmInGroups() throws IOException{
         ArrayList<String[]> groups = new ArrayList<>();
         ArrayList<String> data = readData("day03");
@@ -92,17 +56,6 @@ class day03{
         }
         return groups;
     }
-
-
-    static int solve() throws IOException{
-        int sum = 0;
-        ArrayList<String[]> groups = throwEmInGroups();
-        for(int i =0; i < groups.size(); i++){
-          sum += sumup(commons(Arrays.toString(groups.get(i))));
-        }
-        return sum;
-    }
-
     static String commons(String group){ 
         String cleaned = group.substring(1, group.length() - 1);
         String[] parts = cleaned.split(",");
@@ -122,11 +75,20 @@ class day03{
         return dup;
     }
 
+    static int doJob2() throws IOException{
+        int sum = 0;
+        ArrayList<String[]> groups = throwEmInGroups();
+        for(int i =0; i < groups.size(); i++){
+          sum += sumup(commons(Arrays.toString(groups.get(i))));
+        }
+        return sum;
+    }
+
 
     public static void main(String[] args){ 
         try{
-            System.out.println(solve());
-            doJob(readData("day03"));
+            System.out.println(doJob1());
+            System.out.println(doJob2());
         }catch(IOException e){
             System.out.println(e);
         }
